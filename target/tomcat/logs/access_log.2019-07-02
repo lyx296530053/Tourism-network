@@ -1,0 +1,14 @@
+0:0:0:0:0:0:0:1 - - [02/Jul/2019:09:30:35 +0800] "GET /TOUR HTTP/1.1" 404 - http-bio-80-exec-1 0
+0:0:0:0:0:0:0:1 - - [02/Jul/2019:09:30:41 +0800] "GET /tour HTTP/1.1" 302 - http-bio-80-exec-3 0
+0:0:0:0:0:0:0:1 - - [02/Jul/2019:09:30:41 +0800] "GET /tour/ HTTP/1.1" 304 - http-bio-80-exec-5 248
+0:0:0:0:0:0:0:1 - - [02/Jul/2019:09:30:44 +0800] "GET /tour/footer.html HTTP/1.1" 304 - http-bio-80-exec-4 253
+0:0:0:0:0:0:0:1 - - [02/Jul/2019:09:30:44 +0800] "GET /tour/header.html HTTP/1.1" 304 - http-bio-80-exec-6 413
+0:0:0:0:0:0:0:1 - - [02/Jul/2019:09:30:45 +0800] "GET /tour/images/logo1.jpg HTTP/1.1" 304 - http-bio-80-exec-6 148
+0:0:0:0:0:0:0:1 - - [02/Jul/2019:09:30:45 +0800] "GET /tour/user/changeHeader HTTP/1.1" 200 12 http-bio-80-exec-6 142
+0:0:0:0:0:0:0:1 - - [02/Jul/2019:09:30:47 +0800] "GET /tour/pag/pagCheck HTTP/1.1" 200 - http-bio-80-exec-6 1695
+0:0:0:0:0:0:0:1 - - [02/Jul/2019:09:30:47 +0800] "GET /favicon.ico HTTP/1.1" 404 - http-bio-80-exec-6 0
+0:0:0:0:0:0:0:1 - - [02/Jul/2019:09:30:49 +0800] "GET /tour/select/pagLimit?cid=2&nowPag=1&pagSize=4 HTTP/1.1" 200 4368 http-bio-80-exec-9 4789
+0:0:0:0:0:0:0:1 - - [02/Jul/2019:09:30:49 +0800] "GET /tour/select/pagLimit?cid=4&nowPag=1&pagSize=12 HTTP/1.1" 200 4720 http-bio-80-exec-4 4699
+0:0:0:0:0:0:0:1 - - [02/Jul/2019:09:30:49 +0800] "GET /tour/select/pagLimit?cid=4&nowPag=1&pagSize=4 HTTP/1.1" 200 4720 http-bio-80-exec-8 4911
+0:0:0:0:0:0:0:1 - - [02/Jul/2019:09:30:49 +0800] "GET /tour/select/pagLimit?cid=7&nowPag=1&pagSize=12 HTTP/1.1" 200 5104 http-bio-80-exec-10 4820
+0:0:0:0:0:0:0:1 - - [02/Jul/2019:09:30:49 +0800] "GET /tour/select/pagLimit?cid=5&nowPag=1&pagSize=4 HTTP/1.1" 200 4448 http-bio-80-exec-7 4926

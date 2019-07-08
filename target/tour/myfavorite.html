@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>去这儿旅游网-我的收藏</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/common.css">
+    <link rel="stylesheet" href="css/index.css">
+    <style>
+        .tab-content .row > div {
+            margin-top: 16px;
+        }
+
+        .tab-content {
+            margin-bottom: 36px;
+        }
+    </style>
+    <script src="js/jquery-3.3.1.js"></script>
+</head>
+<script>
+    $(function () {
+        loads(1);
+    });
+    function loads(nowPag) {
+        $.get("favorite/findFavoriteList", {nowPag: nowPag, pagSize: 10}, function (data) {
+            if (data == "denglu") {
+                alert("请登录");
+                location.href("index.html");
+            } else {
+                $("#pagCount").html(data.totalPage);
+                $("#pagSize").html(data.totalCount);
+                var tes = '<li ><a href="javascript:loads(' + 1 + ')">首页</a></li>';
+                if (data.currentPage == 1) {
+                    tes += '<li class="threeword"><a href="javascript:loads(' + 1 + ')">上一页</a></li>';
+                }
+                else {
+                    tes += '<li class="threeword"><a href="javascript:loads(' + (nowPag - 1) + ')">上一页</a></li>';
+                }
+                var start;
+                var end;
+                if (data.totalPage < 10) {
+                    start = 1;
+                    end = data.totalPage;
+                } else {
+                    if (data.currentPage - 4 < 1) {
+                        start = 1;
+                    } else {
+                        start = data.currentPage - 4;
+                    }
+                    if (data.currentPage + 5 > data.totalPage) {
+                        end = data.totalPage;
+                    } else if (data.currentPage <= 5) {
+                        end = 10;
+                    } else {
+                        end = data.currentPage + 5;
+                    }
+                }
+                for (var i = start; i <= end; i++) {
+                    if (data.currentPage == i) {
+                        tes += '<li class="curPage" onclick="javascript:loads(' + i + ')"><a href="javascript:loads(' + i + ')">' + i + '</a></li>';
+                    } else {
+                        tes += '<li  onclick="javascript:loads(' + i + ')"><a href="javascript:loads(' + i + ')">' + i + '</a></li>';
+                    }
+                }
+                if (nowPag == data.totalPage) {
+                    tes += '<li class="threeword"><a href="javascript:loads(' + data.totalPage + ')">下一页</a></li>';
+                }
+                else {
+                    tes += '<li class="threeword"><a href="javascript:loads(' + (nowPag + 1) + ')">下一页</a></li>';
+                }
+                tes += '<li class="threeword"><a href="javascript:loads(' + data.totalPage + ')">末页</a></li>';
+                $("#pagLists").html(tes);
+                var teste = '';
+                for (var i = 0; i < data.list.length; i++) {
+                    var rout = data.list[i];
+                    var temm = '<div class="col-md-3"><a href="javascript:">' +
+                        '<img src=' + rout.rimage + ' ><div class="has_border">' +
+                        '<p style=""><a style="display:-webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp:3;color: black;overflow: hidden;word-break: break-all" href="route_detail.html?rid=' + rout.rid + '">' + rout.rname + '</a></p>' +
+                        '<div class="price">网付价<em>￥</em><strong>' + rout.price + '</strong><em>起</em></div>' +
+                        '</div></a></div>';
+                    teste += temm;
+                }
+                $("#liebiaos").html(teste);
+            }
+        });
+    }
+</script>
+<body>
+<!--引入头部-->
+<div id="header"></div>
+<!-- 排行榜 start-->
+<section id="content">
+    <section class="hemai_jx">
+        <div class="jx_top">
+            <div class="jx_tit">
+                <img src="images/icon_5.jpg" alt="">
+                <span>我的收藏</span>
+            </div>
+        </div>
+        <div class="jx_content">
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="home">
+                    <div class="row" id="liebiaos">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page_num_inf">
+            <i></i> 共
+            <span id="pagCount"></span>页<span id="pagSize"></span>条
+        </div>
+        <div class="pageNum">
+            <ul id="pagLists">
+            </ul>
+        </div>
+    </section>
+</section>
+<!-- 排行榜 end-->
+
+<!--引入尾部-->
+<div id="footer"></div>
+<!--导入布局js，共享header和footer-->
+<script type="text/javascript" src="js/include.js"></script>
+</body>
+</html>

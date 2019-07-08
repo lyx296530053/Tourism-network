@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>去这儿旅游-搜索</title>
+    <link rel="stylesheet" type="text/css" href="css/common.css">
+    <link rel="stylesheet" href="css/search.css">
+    <script src="js/jquery-3.3.1.js"></script>
+    <script src="js/getParameter.js"></script>
+</head>
+
+<script>
+    $(function () {
+       var cid=getParameter("cid");
+      var rname= getParameter("rname");
+      if (rname){
+          rname = window.decodeURIComponent(rname);
+      }
+        load(cid,1,rname);
+    });
+
+    function load(cid, nowPag,rname) {
+        $.get("select/pagLimit", {cid: cid, nowPag: nowPag, pagSize: 8,rname:rname}, function (data) {
+            $("#pagCount").html(data.totalPage);
+            $("#pagSize").html(data.totalCount);
+            var lii = '<li ><a href="javascript:load(' + cid + ',' + 1 + ','+rname+')">首页</a></li>';
+            if (data.currentPage == 1) {
+                lii += '<li class="threeword"><a href="javascript:load(' + cid + ',' + 1 + ''+rname+')">上一页</a></li>';
+            }
+            else {
+                lii += '<li class="threeword"><a href="javascript:load(' + cid + ',' + (nowPag - 1) + ','+rname+')">上一页</a></li>';
+            }
+            var start;
+            var end;
+            if (data.totalPage < 10) {
+                start = 1;
+                end = data.totalPage;
+            } else {
+                if (data.currentPage - 4 < 1) {
+                    start = 1;
+                } else {
+                    start = data.currentPage - 4;
+                }
+                if (data.currentPage + 5 > data.totalPage) {
+                    end = data.totalPage;
+                } else if (data.currentPage <= 5) {
+                    end = 10;
+                } else {
+                    end = data.currentPage + 5;
+                }
+            }
+            for (var i = start; i <= end; i++) {
+                if (data.currentPage == i) {
+                    lii += '<li class="curPage" onclick="javascript:load(' + cid + ',' + i + ','+rname+')"><a href="javascript:load(' + cid + ',' + i + ','+rname+')">' + i + '</a></li>';
+                } else {
+                    lii += '<li  onclick="javascript:load(' + cid + ',' + i + ','+rname+')"><a href="javascript:load(' + cid + ',' + i + ','+rname+')">' + i + '</a></li>';
+                }
+            }
+            if (nowPag == data.totalPage) {
+                lii += '<li class="threeword"><a href="javascript:load(' + cid + ',' + data.totalPage + ','+rname+')">下一页</a></li>';
+            }
+            else {
+                lii += '<li class="threeword"><a href="javascript:load(' + cid + ',' + (nowPag + 1) + ','+rname+')">下一页</a></li>';
+            }
+            lii += '<li class="threeword"><a href="javascript:load(' + cid + ',' + data.totalPage + ','+rname+')">末页</a></li>';
+            $("#pagList").html(lii);
+            var liii = '';
+            for (var i = 0; i < data.list.length; i++) {
+                var route = data.list[i];
+                liii += '<li>\n' +
+    '                       <div class="img"><img src="' + route.rimage + '" style="width: 299px;"></div>\n' +
+    '                        <div class="text1">\n' +
+    '                            <p>' + route.rname + '</p>\n' +
+    '                            <br/>\n' +
+    '                            <p>' + route.routeIntroduce + '</p>\n' +
+    '                        </div>\n' +
+    '                        <div class="price">\n' +
+    '                            <p class="price_num">\n' +
+    '                                <span>&yen;</span>\n' +
+    '                                <span>' + route.price + '</span>\n' +
+    '                                <span>起</span>\n' +
+    '                            </p>\n' +
+    '                            <p><a href="route_detail.html?rid=' + route.rid + '&cid='+cid+'">查看详情</a></p>\n' +
+    '                        </div>\n' +
+    '                    </li>';
+            }
+            $("#number").html(liii);
+        });
+    }
+</script>
+<body>
+<!--引入头部-->
+<div id="header"></div>
+<div class="page_one">
+    <div class="contant">
+        <div class="crumbs">
+            <img src="images/search.png" alt="">
+            <p>去这儿旅行><span>搜索结果</span></p>
+        </div>
+        <div class="xinxi clearfix">
+            <div class="left">
+                <div class="header">
+                    <span>商品信息</span>
+                    <span class="jg">价格</span>
+                </div>
+                <ul id="number">
+                </ul>
+                <div class="page_num_inf">
+                    <i></i> 共
+                    <span id="pagCount"></span>页<span id="pagSize"></span>条
+                </div>
+                <div class="pageNum">
+                    <ul id="pagList">
+                    </ul>
+                </div>
+            </div>
+            <div class="right">
+                <div class="top">
+                    <div class="hot">HOT</div>
+                    <span>热门推荐</span>
+                </div>
+                <ul id="remen">
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--引入头部-->
+<div id="footer"></div>
+<!--导入布局js，共享header和footer-->
+<script type="text/javascript" src="js/include.js"></script>
+</body>
+<script>
+$(function () {
+    load6()
+})
+    function load6() {
+        $.get("select/pagLimit", {cid: 7, nowPag: 1, pagSize: 12}, function (data) {
+            var test='';
+            for (var i=0;i<6;i++) {
+                var rout = data.list[i];
+                var temp ='<li><div class="left"><img src='+rout.rimage+'></div><div class="right"><p><a  href="route_detail.html?rid='+ rout.rid + '">'+rout.rname+'</a></p><p>网付价<span>&yen;<span>' + rout.price + '</span>起</span></p></div></li>';
+                test+=temp;
+            }
+            $("#remen").html(test);
+        });
+    }
+</script>
+</html>

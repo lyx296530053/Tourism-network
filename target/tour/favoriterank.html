@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<script src="js/getParameter.js"></script>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>收藏排行榜</title>
+    <link rel="stylesheet" type="text/css" href="css/common.css">
+    <link rel="stylesheet" type="text/css" href="css/ranking-list.css">
+    <script src="js/jquery-3.3.1.js"></script>
+</head>
+<script>
+    $(function () {
+        load3(1);
+    });
+    function load3(nowPag) {
+        $.get("favorite/findRank", {nowPag:nowPag,pagSize:8}, function (data) {
+            $("#pagCount").html(data.totalPage);
+            $("#pagSize").html(data.totalCount);
+            var pag3 = '<li ><a href="javascript:load3(' + 1 + ')">首页</a></li>';
+            if (data.currentPage == 1) {
+                pag3 += '<li class="threeword"><a href="javascript:load3(' + 1 + ')">上一页</a></li>';
+            }
+            else {
+                pag3 += '<li class="threeword"><a href="javascript:load3(' + (nowPag - 1) + ')">上一页</a></li>';
+            }
+            var start;
+            var end;
+            if (data.totalPage < 10) {
+                start = 1;
+                end = data.totalPage;
+            } else {
+                if (data.currentPage - 4 < 1) {
+                    start = 1;
+                } else {
+                    start = data.currentPage - 4;
+                }
+                if (data.currentPage + 5 > data.totalPage) {
+                    end = data.totalPage;
+                } else if (data.currentPage <= 5) {
+                    end = 10;
+                } else {
+                    end = data.currentPage + 5;
+                }
+            }
+            for (var i = start; i <= end; i++) {
+                if (data.currentPage == i) {
+                    pag3 += '<li class="curPage" onclick="javascript:load3(' + i + ')"><a href="javascript:load3(' + i + ')">' + i + '</a></li>';
+                } else {
+                    pag3 += '<li  onclick="javascript:load3(' + i + ')"><a href="javascript:load3(' + i + ')">' + i + '</a></li>';
+                }
+            }
+            if (nowPag==data.totalPage) {
+                pag3 += '<li class="threeword"><a href="javascript:load3('+ data.totalPage + ')">下一页</a></li>';
+            }
+            else {
+                pag3 += '<li class="threeword"><a href="javascript:load3('+ (nowPag + 1) + ')">下一页</a></li>';
+            }
+            pag3 += '<li class="threeword"><a href="javascript:load3(' + data.totalPage + ')">末页</a></li>';
+            $("#ranks").html(pag3);
+                var teste = '';
+                for (var i = 0; i < data.list.length; i++) {
+                    var rout = data.list[i];
+                    var temm =' <li>\n' +
+                '                <span class="num one">'+(i+1)+'</span>\n' +
+                '                <a href="route_detail.html?rid='+rout.rid+'"><img src="'+rout.rimage+'"></a>\n' +
+                '                <h4><a href=""></a>'+rout.rname+'</h4>\n' +
+                '                <p>\n' +
+                '                    <b class="price">&yen;<span>'+rout.price+'</span>起</b>\n' +
+                '                    <span class="shouchang">已收藏'+data.count[i]+'次</span>\n' +
+                '                </p>\n' +
+                '            </li>';
+                    teste += temm;
+                }
+                $("#qwe").html(teste);
+        });
+    }
+
+</script>
+<body>
+<!--引入头部-->
+<div id="header"></div>
+<div class="contant">
+    <div class="shaixuan">
+        <span id="xianlu">线路名称</span>
+        <input type="text">
+        <span>金额</span>
+        <input type="text">~<input type="text">
+        <button id="susuo">搜索</button>
+    </div>
+    <div class="list clearfix">
+        <ul id="qwe">
+            <li>
+                <span class="num one">1</span>
+                <a href="route_detail.html"><img src="images/jiangxuan_4.jpg" alt=""></a>
+                <h4><a href="route_detail.html">【尾单特卖】全国-曼谷6-7天自由行 泰国出境旅游 特价往6-7天自由行 泰国出境旅游 特价往..</a></h4>
+                <p>
+                    <b class="price">&yen;<span>899</span>起</b>
+                    <span class="shouchang">已收藏450次</span>
+                </p>
+            </li>
+            <li>
+                <span class="num two">2</span>
+                <a href="route_detail.html"><img src="images/jiangxuan_4.jpg" alt=""></a>
+                <h4><a href="route_detail.html">【尾单特卖】全国-曼谷6-7天自由行 泰国出境旅游 特价往6-7天自由行 泰国出境旅游 特价往..</a></h4>
+                <p>
+                    <b class="price">&yen;<span>899</span>起</b>
+                    <span class="shouchang">已收藏450次</span>
+                </p>
+            </li>
+            <li>
+                <span class="num">3</span>
+                <a href="route_detail.html"><img src="images/jiangxuan_4.jpg" alt=""></a>
+                <h4><a href="route_detail.html">【尾单特卖】全国-曼谷6-7天自由行 泰国出境旅游 特价往6-7天自由行 泰国出境旅游 特价往..</a></h4>
+                <p>
+                    <b class="price">&yen;<span>899</span>起</b>
+                    <span class="shouchang">已收藏450次</span>
+                </p>
+            </li>
+            <li>
+                <span class="num">4</span>
+                <a href="route_detail.html"><img src="images/jiangxuan_4.jpg" alt=""></a>
+                <h4><a href="route_detail.html">【尾单特卖】全国-曼谷6-7天自由行 泰国出境旅游 特价往6-7天自由行 泰国出境旅游 特价往..</a></h4>
+                <p>
+                    <b class="price">&yen;<span>899</span>起</b>
+                    <span class="shouchang">已收藏450次</span>
+                </p>
+            </li>
+            <li>
+                <span class="num">5</span>
+                <a href="route_detail.html"><img src="images/jiangxuan_4.jpg" alt=""></a>
+                <h4><a href="route_detail.html">【尾单特卖】全国-曼谷6-7天自由行 泰国出境旅游 特价往6-7天自由行 泰国出境旅游 特价往..</a></h4>
+                <p>
+                    <b class="price">&yen;<span>899</span>起</b>
+                    <span class="shouchang">已收藏450次</span>
+                </p>
+            </li>
+            <li>
+                <span class="num">6</span>
+                <a href="route_detail.html"><img src="images/jiangxuan_4.jpg" alt=""></a>
+                <h4><a href="route_detail.html">【尾单特卖】全国-曼谷6-7天自由行 泰国出境旅游 特价往6-7天自由行 泰国出境旅游 特价往..</a></h4>
+                <p>
+                    <b class="price">&yen;<span>899</span>起</b>
+                    <span class="shouchang">已收藏450次</span>
+                </p>
+            </li>
+            <li>
+                <span class="num">7</span>
+                <a href="route_detail.html"><img src="images/jiangxuan_4.jpg" alt=""></a>
+                <h4><a href="route_detail.html">【尾单特卖】全国-曼谷6-7天自由行 泰国出境旅游 特价往6-7天自由行 泰国出境旅游 特价往..</a></h4>
+                <p>
+                    <b class="price">&yen;<span>899</span>起</b>
+                    <span class="shouchang">已收藏450次</span>
+                </p>
+            </li>
+            <li>
+                <span class="num">8</span>
+                <a href="route_detail.html"><img src="images/jiangxuan_4.jpg" alt=""></a>
+                <h4><a href="route_detail.html">【尾单特卖】全国-曼谷6-7天自由行 泰国出境旅游 特价往6-7天自由行 泰国出境旅游 特价往..</a></h4>
+                <p>
+                    <b class="price">&yen;<span>899</span>起</b>
+                    <span class="shouchang">已收藏450次</span>
+                </p>
+            </li>
+        </ul>
+    </div>
+    <div class="page_num_inf">
+        <i></i> 共
+        <span id="pagCount"></span>页<span id="pagSize"></span>条
+    </div>
+    <div class="pageNum">
+        <ul id="ranks">
+            <li><a href="">首页</a></li>
+            <li class="threeword"><a href="#">上一页</a></li>
+            <li><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li>
+            <li><a href="#">6</a></li>
+            <li><a href="#">7</a></li>
+            <li><a href="#">8</a></li>
+            <li><a href="#">9</a></li>
+            <li><a href="#">10</a></li>
+            <li class="threeword"><a href="javascript:;">下一页</a></li>
+            <li class="threeword"><a href="javascript:;">末页</a></li>
+        </ul>
+    </div>
+</div>
+
+<!--导入底部-->
+<div id="footer"></div>
+<!--导入布局js，共享header和footer-->
+<script type="text/javascript" src="js/include.js"></script>
+</body>
+</html>
